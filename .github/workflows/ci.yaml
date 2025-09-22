@@ -50,11 +50,13 @@ jobs:
       - name: Test minikube cluster
         run: kubectl get pods -A
 
-      # - name: Build image
-      #   run: |
-      #     minikube image build -t test/bitcoin-node:latest -f ./docker/Dockerfile ./docker
+      - name: Build image
+        run: |
+          minikube image build -t test/bitcoin-node:latest -f ./docker/Dockerfile ./docker
 
       - name: Deploy to minikube
         run: |
           kubectl apply -f orchestration/
           kubectl wait --for=condition=ready pod -l app=bitcoin --timeout=120s
+
+      # If everything goes well this is the step where you could push the image to a registry
