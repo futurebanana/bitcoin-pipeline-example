@@ -5,13 +5,13 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - "docker/**"
+    paths:
+      - "docker/**"
   pull_request:
     branches:
       - main
-    # paths:
-    #   - "docker/**"
+    paths:
+      - "docker/**"
 
 jobs:
   docker-build:
@@ -44,17 +44,6 @@ jobs:
           format: "table"
           exit-code: "1"
 
-      # Pushing since Minikube action is failing with local build images
-      - name: Build Bitcoin Node image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./docker
-          push: true
-          load: true
-          tags: karstenjakobsen/bitcoin-pipeline-example:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
 
@@ -65,3 +54,5 @@ jobs:
         run: |
           kubectl apply -f orchestration/
           kubectl wait --for=condition=ready pod -l app=bitcoin --timeout=120s
+
+      # Step to push to Docker Hub or other registry could be added here
