@@ -29,7 +29,7 @@ jobs:
       #     username: ${{ secrets.DOCKER_USERNAME }}
       #     password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Bitcoin Node image
+      - name: Build Bitcoin Node image
         uses: docker/build-push-action@v4
         with:
           context: ./docker
@@ -53,7 +53,7 @@ jobs:
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
 
-      - name: Try the cluster!
+      - name: Test minikube cluster
         run: kubectl get pods -A
 
       # - name: Build image
@@ -62,4 +62,3 @@ jobs:
 
       - name: Deploy to minikube
         run: kubectl apply -f orchestration/
-          kubectl wait --for=condition=ready pod -l app=bitcoin
