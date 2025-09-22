@@ -1,14 +1,14 @@
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: bitcoin-pvc
-#   labels:
-#     app: bitcoin
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   # storageClassName: standard
-#   resources:
-#     requests:
-#       storage: 50Gi # adjust for CI vs real node; 50Gi is fine for tests
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bitcoin-pvc
+  labels:
+    app: bitcoin
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # storageClassName: standard
+  resources:
+    requests:
+      storage: 50Gi # adjust for CI vs real node; 50Gi is fine for tests

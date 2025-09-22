@@ -1,19 +1,19 @@
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: NetworkPolicy
-# metadata:
-#   name: bitcoin-allow-p2p-egress
-#   labels:
-#     app: bitcoin
-# spec:
-#   podSelector:
-#     matchLabels:
-#       app: bitcoin
-#   policyTypes: ["Egress"]
-#   egress:
-#     - to:
-#         - ipBlock:
-#             cidr: 0.0.0.0/0
-#       ports:
-#         - port: 8333
-#           protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: bitcoin-allow-p2p-egress
+  labels:
+    app: bitcoin
+spec:
+  podSelector:
+    matchLabels:
+      app: bitcoin
+  policyTypes: ["Egress"]
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 8333
+          protocol: TCP
