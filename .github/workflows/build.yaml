@@ -34,6 +34,18 @@ jobs:
         with:
           context: ./docker
           push: false
+          load: true
           tags: test/bitcoin-node:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Trivy scan: fail the job if HIGH/CRITICAL issues are found
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.33.1
+        with:
+          image-ref: test/bitcoin-node:latest
+          severity: "HIGH,CRITICAL"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          format: "table"
+          exit-code: "1"
