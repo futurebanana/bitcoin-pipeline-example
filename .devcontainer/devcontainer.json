@@ -1,7 +1,10 @@
 {
 	"name": "bitcoin-pipeline-example",
 	"image": "mcr.microsoft.com/devcontainers/python:0-3.11",
-	"features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2.5.4": {},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1.6.5": {}
+	},
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
