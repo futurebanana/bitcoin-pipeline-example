@@ -61,4 +61,6 @@ jobs:
       #     minikube image build -t test/bitcoin-node:latest -f ./docker/Dockerfile ./docker
 
       - name: Deploy to minikube
-        run: kubectl apply -f orchestration/
+        run: |
+          kubectl apply -f orchestration/
+          kubectl wait --for=condition=ready pod -l app=local-devex
