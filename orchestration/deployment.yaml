@@ -1,4 +1,3 @@
-# deploy.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,7 +19,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: bitcoin-node
-          image: your-docker-repo/bitcoin-node:latest
+          image: karstenjakobsen/bitcoin-pipeline-example:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: rpc

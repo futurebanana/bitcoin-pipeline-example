@@ -2,6 +2,7 @@
 VERSION ?= $(shell git rev-parse --short HEAD)
 TAG ?= devel-$(VERSION)
 DOCKER_FILE ?= Dockerfile
+REPOSITORY ?= karstenjakobsen
 IMAGE_PREFIX ?= bitcoin-pipeline-example
 
 # Default target
@@ -12,9 +13,19 @@ all: build volume scan run
 .PHONY: build
 build:
 	@echo "Building Docker image ..."
-	cd docker/ && docker build -t $(IMAGE_PREFIX):$(TAG) .
+	cd docker/ && docker build -t $(REPOSITORY)/$(IMAGE_PREFIX):$(TAG) -t $(REPOSITORY)/$(IMAGE_PREFIX):latest .
 
-.PHONY:	volume
+.PHONY: deploy
+deploy:
+	@echo "Deploying to Minikube..."
+	kubectl apply -f orchestration/
+
+.PHONY: down
+down:
+	@echo "Tearing down Minikube deployment..."
+	kubectl delete -f orchestration/ || true
+
+.PHONY: volume
 volume:
 	docker volume create bitcoin_data || true
 
