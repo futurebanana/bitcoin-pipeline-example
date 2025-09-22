@@ -20,7 +20,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: bitcoin-node
-          image: your-docker-repo/bitcoin-node:latest
+          image: test/bitcoin-node:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: rpc

@@ -49,3 +49,17 @@ jobs:
           vuln-type: "os,library"
           format: "table"
           exit-code: "1"
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@latest
+
+      - name: Try the cluster!
+        run: kubectl get pods -A
+
+      # - name: Build image
+      #   run: |
+      #     minikube image build -t test/bitcoin-node:latest -f ./docker/Dockerfile ./docker
+
+      - name: Deploy to minikube
+        run: kubectl apply -f orchestration/
+          kubectl wait --for=condition=ready pod -l app=bitcoin
