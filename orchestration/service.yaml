@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitcoin-rpc
+  labels:
+    app: bitcoin
+spec:
+  type: ClusterIP
+  selector:
+    app: bitcoin
+  ports:
+    - name: rpc
+      port: 8332 # stable cluster port
+      targetPort: rpc # matches containerPort name in Deployment
+      protocol: TCP

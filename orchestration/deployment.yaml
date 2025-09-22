@@ -1,0 +1,67 @@
+# deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitcoin-node
+  labels:
+    app: bitcoin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitcoin
+  template:
+    metadata:
+      labels:
+        app: bitcoin
+    spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+      containers:
+        - name: bitcoin-node
+          image: your-docker-repo/bitcoin-node:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: rpc
+              containerPort: 8332
+            - name: p2p
+              containerPort: 8333
+          volumeMounts:
+            - name: bitcoin-data
+              mountPath: /bitcoin/.bitcoin
+          # Lightweight probes: readiness = TCP on RPC, liveness = bitcoin-cli
+          readinessProbe:
+            tcpSocket:
+              port: rpc
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+                [
+                  "bitcoin-cli",
+                  "-rpcconnect=127.0.0.1",
+                  "-rpcwait=5",
+                  "getblockchaininfo",
+                ]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+      volumes:
+        - name: bitcoin-data
+          persistentVolumeClaim:
+            claimName: bitcoin-pvc

@@ -20,6 +20,14 @@ Self-documenting: Encodes a canonical “is bitcoind up?” check right in the i
 
 Your acceptance criteria asked for a lightweight health check in the image.
 
+# K8s
+
+In practice for Bitcoin node
+
+First time the PVC is mounted, Kubernetes will adjust ownership so that /bitcoin/.bitcoin is writable by GID 1000.
+On subsequent pod restarts, if the PVC root dir is still GID 1000, Kubernetes won’t waste time re-chowning the entire blockchain directory.
+That means faster restarts, and your non-root bitcoin user can still write blocks, wallets, etc.
+
 # Sources
 
 https://minikube.sigs.k8s.io/docs/tutorials/setup_minikube_in_github_actions/

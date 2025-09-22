@@ -1,0 +1,9 @@
+name: CI Entrypoint
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  call-ci:
+    uses: ./.ci/build.yml
