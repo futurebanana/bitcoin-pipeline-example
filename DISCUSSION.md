@@ -28,6 +28,8 @@ First time the PVC is mounted, Kubernetes will adjust ownership so that /bitcoin
 On subsequent pod restarts, if the PVC root dir is still GID 1000, Kubernetes won’t waste time re-chowning the entire blockchain directory.
 That means faster restarts, and your non-root bitcoin user can still write blocks, wallets, etc.
 
+using builtin health check for minikube
+
 # Sources
 
 https://minikube.sigs.k8s.io/docs/tutorials/setup_minikube_in_github_actions/
