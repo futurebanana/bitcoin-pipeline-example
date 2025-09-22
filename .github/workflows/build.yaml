@@ -41,7 +41,7 @@ jobs:
 
       # Trivy scan: fail the job if HIGH/CRITICAL issues are found
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@v0.33.1
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: test/bitcoin-node:latest
           severity: "HIGH,CRITICAL"
