@@ -50,12 +50,6 @@ jobs:
       - name: Test minikube cluster
         run: kubectl get pods -A
 
-      - run: ls -R
-
-      - name: Build image
-        run: |
-          minikube image build -t test/bitcoin-node:latest -f ./docker/Dockerfile ./docker
-
       - name: Deploy to minikube
         run: |
           kubectl apply -f orchestration/

@@ -20,7 +20,7 @@ spec:
       containers:
         - name: bitcoin-node
           image: test/bitcoin-node:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never # for local minikube testing; use "IfNotPresent" or "Always" in prod
           ports:
             - name: rpc
               containerPort: 8332
