@@ -13,7 +13,7 @@ all: build volume scan run
 .PHONY: build
 build:
 	@echo "Building Docker image ..."
-	cd docker/ && docker build --progress=plain -t $(REPOSITORY)/$(IMAGE_PREFIX):$(TAG) -t $(REPOSITORY)/$(IMAGE_PREFIX):latest .
+	cd docker/ && docker build --progress=plain -t local/bitcoin-example:v1 -t $(REPOSITORY)/$(IMAGE_PREFIX):$(TAG) -t $(REPOSITORY)/$(IMAGE_PREFIX):latest .
 
 .PHONY: deploy
 deploy:
