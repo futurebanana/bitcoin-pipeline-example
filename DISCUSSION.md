@@ -33,6 +33,7 @@ These were deprioritized to focus on the core deliverables (image, k8s manifests
 
 * https://minikube.sigs.k8s.io/docs/tutorials/setup_minikube_in_github_actions/
 * https://github.com/kylemanna/docker-bitcoind
+* https://github.com/aquasecurity/trivy-action
 
 ## AI Generated Parts
 
