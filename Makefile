@@ -13,7 +13,7 @@ all: build volume scan run
 .PHONY: build
 build:
 	@echo "Building Docker image ..."
-	cd docker/ && docker build -t $(REPOSITORY)/$(IMAGE_PREFIX):$(TAG) -t $(REPOSITORY)/$(IMAGE_PREFIX):latest .
+	cd docker/ && docker build --progress=plain -t $(REPOSITORY)/$(IMAGE_PREFIX):$(TAG) -t $(REPOSITORY)/$(IMAGE_PREFIX):latest .
 
 .PHONY: deploy
 deploy:
@@ -35,8 +35,8 @@ run:
 	docker run --rm -d --name bitcoin-node \
 	-p 8332:8332 -p 8333:8333 \
 	-v bitcoin_data:/bitcoin/.bitcoin \
-	$(IMAGE_PREFIX):$(TAG)
+	$(REPOSITORY)/$(IMAGE_PREFIX):$(TAG)
 
 .PHONY: scan
 scan:
-	trivy image --severity HIGH,CRITICAL $(IMAGE_PREFIX):$(TAG)
+	trivy image --severity HIGH,CRITICAL $(REPOSITORY)/$(IMAGE_PREFIX):$(TAG)

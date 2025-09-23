@@ -1,36 +1,41 @@
-# Trade-offs
+## Discussion
 
-Used community Docker image from:
+This assignment was timeboxed to ~4 hours, so I made a few pragmatic tradeoffs:
 
-https://github.com/kylemanna/docker-bitcoind
+- **Base image choice**:
+  Rather than reading the documentation and building Bitcoin Core 29.0 entirely from scratch, I used a popular community-maintained Docker project to move faster while keeping reasonable security. I see this as a reasonable tradeoff for this assignment since I could have spent most (if not more) time on reading docs and having to figure out which libraries to include.
 
-FROM ubuntu:latest is not minimal image
+- **Filesystem paths vs. “sensible defaults”**:
+  I followed the community image’s conventions (e.g., data/config under `/bitcoin`) instead of the assignment’s suggested defaults (`/var/lib/bitcoin` and `/etc/bitcoin/bitcoin.conf`).
+  **If extending:** either adopt the suggested paths, add symlinks, or pass explicit flags (`-datadir`/`-conf`) and adjust entrypoint/manifests.
 
-Sensible defailts /var/lib/bitcoin
+- **CI/CD scope**:
+  Implemented a lean build → scan → deploy -> verify pipeline and skipped a richer release flow (e.g., `release-please`). There’s a known limitation where Minikube didn’t build-and-use the image locally. With more time, I’d add a local registry or `minikube image load`
 
-29.0 != 29.1
+Overall, the goal was to demonstrate working containerization, orchestration, and CI rather than full production hardening.
 
-healtcheck:
+## Skipped Tasks
 
-Local/dev & CI: docker run, docker compose, GitHub Actions, Docker Hub, etc. can surface health via docker ps without K8s.
+To keep within ~4 hours, I deliberately skipped:
 
-Non-K8s runtimes: ECS, Nomad, Swarm, plain Docker hosts can use it.
+- **Log analysis (shell, Task 4)**:
+  Doing this by hand would have taken me too long so I focused on the general-purpose implementation and delivered the **Python CLI (Task 5)**
 
-Self-documenting: Encodes a canonical “is bitcoind up?” check right in the image.
+- **Terraform IAM module (optional, Task 6)**:
+  Useful but out of scope given time—proper version pinning, tagging, idempotency, and outputs take non-trivial effort.
 
-Your acceptance criteria asked for a lightweight health check in the image.
+- **Nomad job (alternative to k8s, Task 7)**:
+  I prioritized Kubernetes; a proper Nomad spec and validation would add setup and testing overhead.
 
-# K8s
+These were deprioritized to focus on the core deliverables (image, k8s manifests, and CI pipeline).
 
-In practice for Bitcoin node
-
-First time the PVC is mounted, Kubernetes will adjust ownership so that /bitcoin/.bitcoin is writable by GID 1000.
-On subsequent pod restarts, if the PVC root dir is still GID 1000, Kubernetes won’t waste time re-chowning the entire blockchain directory.
-That means faster restarts, and your non-root bitcoin user can still write blocks, wallets, etc.
-
-using builtin health check for minikube
-
-# Sources
+## Sources
 
 https://minikube.sigs.k8s.io/docs/tutorials/setup_minikube_in_github_actions/
 https://github.com/kylemanna/docker-bitcoind
+
+## AI Generated Parts
+
+* Python Aggregator function + refactoring for test *NOT the CLI scaffold
+* Sparring and checking for requirements
+* Discussion

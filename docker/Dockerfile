@@ -38,14 +38,14 @@ RUN cd /tmp \
   && wget https://bitcoincore.org/bin/bitcoin-core-${VERSION}/SHA256SUMS.asc \
   https://bitcoincore.org/bin/bitcoin-core-${VERSION}/SHA256SUMS \
   https://bitcoincore.org/bin/bitcoin-core-${VERSION}/bitcoin-${VERSION}-${ARCH}-linux-gnu.tar.gz \
-  && gpg --verify --status-fd 1 --verify SHA256SUMS.asc SHA256SUMS 2>/dev/null | grep "^\[GNUPG:\] VALIDSIG.*${BITCOIN_CORE_SIGNATURE}\$" \
+  && gpg --verify --status-fd 1 --verify SHA256SUMS.asc SHA256SUMS | grep "^\[GNUPG:\] VALIDSIG.*${BITCOIN_CORE_SIGNATURE}\$" \
   && sha256sum --ignore-missing --check SHA256SUMS \
   && tar -xzvf bitcoin-${VERSION}-${ARCH}-linux-gnu.tar.gz -C /opt \
   && ln -sv bitcoin-${VERSION} /opt/bitcoin \
   && /opt/bitcoin/bin/test_bitcoin --show_progress \
   && rm -v /opt/bitcoin/bin/test_bitcoin /opt/bitcoin/bin/bitcoin-qt
 
-FROM ubuntu:latest
+FROM ubuntu:24.04
 LABEL maintainer="Kyle Manna <kyle@kylemanna.com>"
 
 ENTRYPOINT ["docker-entrypoint.sh"]

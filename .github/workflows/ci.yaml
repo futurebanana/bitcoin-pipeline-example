@@ -39,7 +39,7 @@ jobs:
         with:
           image-ref: karstenjakobsen/bitcoin-pipeline-example:latest
           severity: "HIGH,CRITICAL"
-          ignore-unfixed: true
+          ignore-unfixed: false
           vuln-type: "os,library"
           format: "table"
           exit-code: "1"
@@ -49,6 +49,11 @@ jobs:
 
       - name: Test minikube cluster
         run: kubectl get pods -A
+
+      - name: Build image locally for minikube
+        run: |
+          cd docker && \
+          minikube image build -t local/bitcoin-example:v1 .
 
       - name: Deploy to minikube
         run: |

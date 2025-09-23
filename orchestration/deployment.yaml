@@ -19,7 +19,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: bitcoin-node
-          image: karstenjakobsen/bitcoin-pipeline-example:latest
+          image: local/bitcoin-example:v1
           imagePullPolicy: IfNotPresent
           ports:
             - name: rpc
