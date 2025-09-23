@@ -31,11 +31,12 @@ These were deprioritized to focus on the core deliverables (image, k8s manifests
 
 ## Sources
 
-https://minikube.sigs.k8s.io/docs/tutorials/setup_minikube_in_github_actions/
-https://github.com/kylemanna/docker-bitcoind
+* https://minikube.sigs.k8s.io/docs/tutorials/setup_minikube_in_github_actions/
+* https://github.com/kylemanna/docker-bitcoind
 
 ## AI Generated Parts
 
 * Python Aggregator function + refactoring for test *NOT the CLI scaffold
 * Sparring and checking for requirements
 * Discussion
+* README.md
